@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { container } from './inversify.config';
-import { IProductService } from './services';
-import { TYPES } from './types';
-import { Product } from './models';
+import { container } from '../inversify.config';
+import { IProductService } from '../services';
+import { TYPES } from '../types';
+import { Product } from '../models';
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const productService = container.get<IProductService>(TYPES.ProductService);
