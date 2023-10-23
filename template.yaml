@@ -26,7 +26,7 @@ Resources:
         UpdateProduct:
           Type: Api
           Properties:
-            Path: /product
+            Path: /product/{id}
             Method: put
     Metadata:
       BuildMethod: esbuild
