@@ -6,7 +6,7 @@ import { IProductService } from '../services';
 import { TYPES } from '../types';
 import { UpdateProductDto } from '../dtos';
 
-export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const updateProductHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const productService = container.get<IProductService>(TYPES.ProductService);
 
   try {
