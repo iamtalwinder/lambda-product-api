@@ -2,29 +2,29 @@ import { IsArray, IsNotEmpty, IsNumber, IsString, Min, IsUrl } from 'class-valid
 import { Product } from '../models';
 
 export class CreateProductDto implements Omit<Product, '_id'> {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
+    @IsString()
+    @IsNotEmpty()
+    name: string;
 
-  @IsString()
-  @IsNotEmpty()
-  sku: string;
+    @IsString()
+    @IsNotEmpty()
+    sku: string;
 
-  @IsString()
-  description?: string;
+    @IsString()
+    description?: string;
 
-  @IsNumber()
-  @Min(0)
-  price: number;
+    @IsNumber()
+    @Min(0)
+    price: number;
 
-  @IsString()
-  category?: string;
+    @IsString()
+    category?: string;
 
-  @IsArray()
-  @IsUrl({}, { each: true })
-  images?: string[];
+    @IsArray()
+    @IsUrl({}, { each: true })
+    images?: string[];
 
-  @IsArray()
-  @IsString({ each: true })
-  tags?: string[];
+    @IsArray()
+    @IsString({ each: true })
+    tags?: string[];
 }

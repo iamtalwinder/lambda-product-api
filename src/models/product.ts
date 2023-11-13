@@ -1,4 +1,4 @@
-  export interface Product {
+export interface Product {
     _id: string;
     name: string;
     sku: string;
@@ -7,4 +7,4 @@
     category?: string;
     images?: string[];
     tags?: string[];
-  }
+}
