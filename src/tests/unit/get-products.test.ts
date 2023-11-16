@@ -11,23 +11,23 @@ import { products } from './mock/products';
 container.rebind<IProductService>(TYPES.ProductService).toConstantValue(mockProductService);
 
 describe('getProductsHandler', function () {
-    describe('when correct data is passed', function () {
-        it('should return successful response', async () => {
-            const event: APIGatewayProxyEvent = {
-                ...baseEvent,
-                httpMethod: 'GET',
-                path: '/product',
-            };
+  describe('when correct data is passed', function () {
+    it('should return successful response', async () => {
+      const event: APIGatewayProxyEvent = {
+        ...baseEvent,
+        httpMethod: 'GET',
+        path: '/product',
+      };
 
-            const result: APIGatewayProxyResult = await getProductsHandler(event);
+      const result: APIGatewayProxyResult = await getProductsHandler(event);
 
-            expect(result.statusCode).toEqual(200);
-            expect(result.body).toEqual(
-                JSON.stringify({
-                    items: products,
-                    lastEvaluatedKey: 'test',
-                }),
-            );
-        });
+      expect(result.statusCode).toEqual(200);
+      expect(result.body).toEqual(
+        JSON.stringify({
+          items: products,
+          lastEvaluatedKey: 'test',
+        }),
+      );
     });
+  });
 });

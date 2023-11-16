@@ -10,6 +10,29 @@ Globals:
     Timeout: 3
 
 Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: LambdaProductAPIUserPool
+      UsernameAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+      Schema:
+        - AttributeDataType: String
+          Name: email
+          Required: false
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref UserPool
+      GenerateSecret: false
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+
   UpdateProductFunction:
     Type: AWS::Serverless::Function
     Properties:
