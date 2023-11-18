@@ -33,6 +33,49 @@ Resources:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
 
+  LambdaProductAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Auth:
+        Authorizers:
+          CognitoAuthorizer:
+            Type: COGNITO_USER_POOLS
+            UserPoolArn: !GetAtt "UserPool.Arn"
+            Identity:
+              Header: Authorization
+              ReauthorizeEvery: 300
+
+  SignupFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/handlers/signup.signupHandler
+      Runtime: nodejs20.x
+      Tracing: Active
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
+      Architectures:
+        - x86_64
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /signup
+            Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints: 
+        - src/handlers/signup.ts
+
   UpdateProductFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -40,6 +83,10 @@ Resources:
       Handler: src/handlers/update-product.updateProductHandler
       Runtime: nodejs20.x
       Tracing: Active
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
       Architectures:
         - x86_64
       Policies:
@@ -49,6 +96,9 @@ Resources:
         UpdateProduct:
           Type: Api
           Properties:
+            RestApiId: !Ref LambdaProductAPI
+            Auth:
+              Authorizer: CognitoAuthorizer
             Path: /product/{id}
             Method: put
     Metadata:
@@ -67,6 +117,10 @@ Resources:
       Handler: src/handlers/create-product.createProductHandler
       Runtime: nodejs20.x
       Tracing: Active
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
       Architectures:
         - x86_64
       Policies:
@@ -76,6 +130,9 @@ Resources:
         CreateProduct:
           Type: Api
           Properties:
+            RestApiId: !Ref LambdaProductAPI
+            Auth:
+              Authorizer: CognitoAuthorizer
             Path: /product
             Method: post
     Metadata:
@@ -94,6 +151,10 @@ Resources:
       Handler: src/handlers/get-products.getProductsHandler
       Runtime: nodejs20.x
       Tracing: Active
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
       Architectures:
         - x86_64
       Policies:
@@ -103,6 +164,9 @@ Resources:
         GetProducts:
           Type: Api
           Properties:
+            RestApiId: !Ref LambdaProductAPI
+            Auth:
+              Authorizer: CognitoAuthorizer
             Path: /product
             Method: get
     Metadata:
@@ -121,6 +185,10 @@ Resources:
       Handler: src/handlers/get-product-by-id.getProductByIdHandler
       Runtime: nodejs20.x
       Tracing: Active
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
       Architectures:
         - x86_64
       Policies:
@@ -130,6 +198,9 @@ Resources:
         GetProductById:
           Type: Api
           Properties:
+            RestApiId: !Ref LambdaProductAPI
+            Auth:
+              Authorizer: CognitoAuthorizer
             Path: /product/{id}
             Method: get
     Metadata:
@@ -148,6 +219,10 @@ Resources:
       Handler: src/handlers/delete-product.deleteProductHandler
       Runtime: nodejs20.x
       Tracing: Active
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
       Architectures:
         - x86_64
       Policies:
@@ -157,6 +232,9 @@ Resources:
         GetProductById:
           Type: Api
           Properties:
+            RestApiId: !Ref LambdaProductAPI
+            Auth:
+              Authorizer: CognitoAuthorizer
             Path: /product/{id}
             Method: delete
     Metadata:
