@@ -17,6 +17,7 @@
     "@aws-sdk/client-dynamodb": "^3.496.0",
     "@aws-sdk/lib-dynamodb": "^3.496.0",
     "amazon-cognito-identity-js": "^6.3.7",
+    "aws-sdk": "^2.1545.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "esbuild": "^0.14.14",

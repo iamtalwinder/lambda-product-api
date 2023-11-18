@@ -30,6 +30,8 @@ Resources:
       UserPoolId: !Ref UserPool
       GenerateSecret: false
       ExplicitAuthFlows:
+        - ADMIN_NO_SRP_AUTH
+        - ALLOW_USER_SRP_AUTH
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
 
@@ -45,6 +47,37 @@ Resources:
             Identity:
               Header: Authorization
               ReauthorizeEvery: 300
+
+  LoginFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/handlers/login.loginHandler
+      Runtime: nodejs20.x
+      Tracing: Active
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
+      Architectures:
+        - x86_64
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonESCognitoAccess
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /login
+            Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints: 
+        - src/handlers/login.ts
 
   SignupFunction:
     Type: AWS::Serverless::Function
