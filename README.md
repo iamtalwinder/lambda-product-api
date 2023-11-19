@@ -42,7 +42,7 @@ To get started with this project, follow these steps:
 
 5. **Deploy the Application**
    - Use AWS SAM to deploy the application to your AWS account.
-   - For detailed instructions, refer to the `deployment.md` file.
+   - For detailed instructions, refer AWS documentation.
 
 
 ## Contributing
