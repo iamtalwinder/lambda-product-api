@@ -12,6 +12,10 @@ This project is a serverless application built using Node.js and TypeScript, des
 - **Dependency Injection**: Implements dependency injection using Inversify, promoting a modular and testable codebase.
 - **Input Validation**: Leverages `class-validator` for robust input validation, ensuring the integrity and correctness of the API requests.
 
+## Architecture
+
+![Lambda product API architecture](docs/architecture.png)
+
 ## Technology Stack
 
 - **Node.js & TypeScript**: Combines the runtime efficiency of Node.js with the type safety of TypeScript.
